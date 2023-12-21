@@ -41,7 +41,7 @@ void contextFonc(){
     //On defini le comportement du thread lors de la reception d'un signal SIGUSR1
 
     while(1){
-        printf("Mon nom est: %d\n",monNom);
+        printf("Mon indice est: %d\n",monNom);
         sleep(TIMETHREAD);
     }
 }
@@ -53,12 +53,12 @@ int main(){
 
     //On cree les contextes en leur envoyant un numémros vomme leur nom
     for(int i = 0; i < NBRECONTEXT; i++){
-        indiceContexte++;
         getcontext(&contextes[i]);//On l'initialise d'abord avec le contexte actuel
         contextes[i].uc_stack.ss_sp = malloc(STACK_SIZE);//On alloue la memoire pour la pile
         contextes[i].uc_stack.ss_size = STACK_SIZE;
         contextes[i].uc_stack.ss_flags = 0;
         makecontext(&contextes[i], contextFonc, 0, NULL);
+        indiceContexte+=1;
     }
 
     //On cree le contexte du scheduler
