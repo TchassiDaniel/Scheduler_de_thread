@@ -5,11 +5,11 @@
 #include <unistd.h>
 #include <string.h>
 
-#define NBRECONTEXT 2
-#define TIMETHREAD 2
-#define TIMESHEDULER 5
+#define NBRECONTEXT 2 //Nombre de threads scheduler
+#define TIMETHREAD 2 //Temps après lequel les thread affiche
+#define TIMESHEDULER 5 //Temps après lequel le trhead sheduler se reveille
 
-#define STACK_SIZE 4096 /* large enough value for AMODE 64 */
+#define STACK_SIZE 4096 //Taille de la pile
 
 ucontext_t contextes[NBRECONTEXT];//Tableau qui va contenir les contextes à scheduler
 int indiceContexte = 0;//Variable qui va contenir l'indice du dernier contexte executer ou en cours
@@ -17,6 +17,7 @@ ucontext_t scheduCont;//Variable qui va contenir le contexte du scheduler
 
 //On va utilisder un signal alarme pour ordonnancer le scheduler
 void handlerAlarm(int signal){
+    //On change de contexte pour redonner la main au scheduler qui va passer à la tâche suivante
     swapcontext(&contextes[indiceContexte], &scheduCont);
 }
 
